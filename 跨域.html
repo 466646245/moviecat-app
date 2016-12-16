@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    var myJSONP=function (url,params,callback) {
+        url += '?';
+        for (var k in params){
+            url += k + '=' + params[k] + '&';
+        }
+        var cbName='itcast_jsonp_'+(new Date() -0);
+        url += 'callback=' + cbName;
+        window[cbName]=function (data) {
+            callback(data);
+            document.body.removeChild(script);
+            delete window[cbName];
+        }
+        var script=document.createElement('script');
+        script.src=url;
+        document.body.appendChild(script);
+
+    };
+    myJSONP('https://api.douban.com/v2/movie/in_theaters',
+        {count:10,start:1},function (data) {
+            console.log(data);
+        });
+</script>
+</body>
+</html>

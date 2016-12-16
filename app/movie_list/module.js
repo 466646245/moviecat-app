@@ -4,10 +4,10 @@
 (function (angular) {
     angular.module('moviecat.movie_list',['ngRoute'])
         .config(['$routeProvider',function ($routeProvider) {
-            $routeProvider.when('/:movieType/:page',{
+            $routeProvider.when('/:movieType/:page?',{
                 templateUrl:'./movie_list/view.html',
                 controller:'MovieListController'
-            }).otherwise({redirectTo:'/home_page'});
+            }).otherwise({redirectTo:'/home_page'})
 
         }])
         .controller('MovieListController',['$scope','$http','$routeParams','$route','itcastJSONP',
@@ -17,7 +17,11 @@
             $scope.curPage=$routeParams.page||1;
             var movieStart=($scope.curPage-1)*$scope.pageSize;
             itcastJSONP.jsonp('https://api.douban.com/v2/movie/'+$routeParams.movieType,
-                {start:movieStart,count:$scope.pageSize},function (data) {
+                {
+                    start:movieStart,
+                    count:$scope.pageSize,
+                    q: $routeParams.q || ''
+                }, function (data) {
                 console.log(data);
                 $scope.movie=data;
                 $scope.totalPages=Math.ceil(data.total/$scope.pageSize);

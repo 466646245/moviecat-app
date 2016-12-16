@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body ng-app="myApp">
+<div my-btn></div>
+<div class="my-btn"></div>
+<my-btn></my-btn>
+<script src="node_modules/angular/angular.js"></script>
+<script>
+    angular.module('myApp',[])
+        //第一个参数：指令的名称，创建的时候需要使用驼峰命名法：myBtn
+        //在视图中使用的时候，要通过<div my-btn></div>
+        //第二个参数：表示要使用的一些服务，如果需要就注入进来里面的回调函数，用来写指令的代码
+        .directive('myBtn',[function () {
+            //自定义指令需要返回一个对象
+            return{
+                template:"<button>zhis</button>",
+                restrict:'ECMA',
+                //ECMA
+                //E:element:作为自定义标签来使用
+                //C:class:作为类名来使用
+                //M:注释：作为注释来使用
+                //A:attribute:作为标签的属性来使用
+                replace:true
+                //把指定的指令的元素替换为模板内容
+            }
+        }])
+</script>
+</body>
+</html>
